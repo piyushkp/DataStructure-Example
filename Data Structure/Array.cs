@@ -66,7 +66,7 @@ namespace Tree
             int length = 0;
             for (int i = 0; i < A1.Length; i++)
             {
-                c[i] = A2[i];
+                c[i] = A1[i];
                 length++;
             }
             for (int j = 0; j < A2.Length; j++)
@@ -94,18 +94,18 @@ namespace Tree
         }
         private int partition(int[] G, int first, int last)
         {
-            int pivot = (first + last) / 2;
-            swap(G, last, pivot);
+            int pivot = G[end];
+            int pIndex = first;
             for (int i = first; i < last; i++)
             {
-                if (G[i] < G[last])
+                if (G[i] < pivot)
                 {
-                    swap(G, i, first);
-                    first++;
+                    swap(G, i, pIndex);
+                    pIndex++;
                 }
             }
-            swap(G, first, last);
-            return first;
+            swap(G, pIndex, last);
+            return pIndex;
         }
         private void swap(int[] G, int x, int y)
         {
