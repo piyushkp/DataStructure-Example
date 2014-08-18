@@ -94,7 +94,7 @@ namespace Tree
         }
         private int partition(int[] G, int first, int last)
         {
-            int pivot = G[end];
+            int pivot = G[last];
             int pIndex = first;
             for (int i = first; i < last; i++)
             {
