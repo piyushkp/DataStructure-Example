@@ -5,14 +5,8 @@ using System.Text;
 
 namespace Tree
 {
-    public class Queue
-    {
-        
-
-    }
-
     //Implement the Queue using two Stack
-    public class Queue<E>
+    public class QueueImp<E>
     {        
         private Stack<E> Inbox = new Stack<E>();
         private Stack<E> Outbox = new Stack<E>();

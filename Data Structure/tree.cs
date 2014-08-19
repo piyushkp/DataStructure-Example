@@ -16,7 +16,7 @@ namespace Tree
     public class tree
     {
         public Node root;
-        
+
         // insert node in BST
         public void insert(Node root, int node)
         {
@@ -293,7 +293,7 @@ namespace Tree
             {
                 if (node.data == key)
                     return node;
-                if (node.data < key)
+                if (key < node.data)
                 {
                     Parent = node;
                     node = node.left;
@@ -380,7 +380,7 @@ namespace Tree
             {
                 two = two.parent;
             }
-            while(one != null && two != null)
+            while (one != null && two != null)
             {
                 if (one.data == two.data)
                     return one;
@@ -426,11 +426,11 @@ namespace Tree
         }
 
         // Convert sorted array into balanced tree
-        private Node sortedArraytoBST (int []arr, int start, int end)
+        private Node sortedArraytoBST(int[] arr, int start, int end)
         {
-            if(end > start)
+            if (end > start)
                 return null;
-            int mid  = (start + end) / 2;
+            int mid = (start + end) / 2;
             Node tree = new Node();
             tree.data = arr[mid];
             tree.left = sortedArraytoBST(arr, start, mid - 1);
@@ -561,6 +561,114 @@ namespace Tree
             int t = a;
             a = b;
             b = t;
+        }
+
+        //Binary Tree Maximum Path Sum
+        public int maxPathSum(Node root)
+        {
+            if (root == null)
+            {
+                return 0;
+            }
+            int maxLeft = maxPathSum(root.left); //max length in the whole left subtree
+            int maxRight = maxPathSum(root.right); //max length in the whole right subtree
+            int leftLen = 0; //max length in the left subtree starting with left child
+            int rightLen = 0; //max length in the left subtree starting with left child
+            if (root.left != null)
+            {
+                leftLen = Math.Max(root.left.data, 0);
+            }
+            if (root.right != null)
+            {
+                rightLen = Math.Max(root.right.data, 0);
+            }
+            int maxLength = root.data;
+            if (leftLen > 0)
+            {
+                maxLength += leftLen;
+            }
+            if (rightLen > 0)
+            {
+                maxLength += rightLen;
+            }
+            if (root.left != null)
+            {
+                maxLength = Math.Max(maxLeft, maxLength);
+            }
+            if (root.right != null)
+            {
+                maxLength = Math.Max(maxRight, maxLength);
+            }
+            //root.val is replaced with the maximum length starting from root downwards
+            root.data = Math.Max(leftLen, rightLen) + root.data;
+            return maxLength;
+        }
+
+        //Given a binary tree, every node has a int value, return the root node of subtree with the largest sum up value. 
+        private Node maxSumSubtree(Node root)
+        {
+            if (root == null) return null;
+            
+            int maxsum = 0;
+            Node res = null;
+            helper(root, res, maxsum);
+            return res;
+        }
+        int helper(Node p, Node res, int maxsum)
+        {
+            if (p == null) return 0;
+            int lsum = helper(p.left, res, maxsum);
+            int rsum = helper(p.right, res, maxsum);
+            int total = lsum + rsum + p.data;
+            if (total > maxsum)
+            {
+                maxsum = total;
+                res = p;
+            }
+            return total;
+        }
+
+        //Find the maximum sum of the subtree (triangle) from the given tree.
+
+        private int FindMaxSumSubtree(Node root)
+        {            
+            int max_sum = 0;
+            max_sum = MaxSumSubtree(root, max_sum);
+            return max_sum;
+        }
+        private int MaxSumSubtree(Node root, int max_sum)
+        {
+            int sum = 0;
+            int lsum = 0;
+            int rsum = 0;
+            if (root == null)
+                return 0;
+            if (root.left != null)
+                lsum = MaxSumSubtree(root.left, max_sum);
+            if (root.right != null)
+                rsum = MaxSumSubtree(root.right, max_sum);
+            sum = root.data + lsum + rsum;
+            if (max_sum < sum)
+                max_sum = sum;
+            return max_sum;
+        }
+
+        //Print Right View of a Binary Tree
+        public void rightView()
+        {
+            int max_level = 0;
+            rightViewUtil(root, 1, max_level);
+        }
+        public void rightViewUtil(Node root, int level, int max_level)
+        {
+            if (root == null) return;
+            if (max_level < level)
+            {
+                Console.WriteLine(root.data);
+                max_level = level;
+            }
+            rightViewUtil(root.right, level + 1, max_level);
+            rightViewUtil(root.left, level + 1, max_level);
         }
     }
 }
