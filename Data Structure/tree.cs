@@ -629,7 +629,6 @@ namespace Tree
         }
 
         //Find the maximum sum of the subtree (triangle) from the given tree.
-
         private int FindMaxSumSubtree(Node root)
         {            
             int max_sum = 0;
