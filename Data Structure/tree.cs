@@ -180,50 +180,29 @@ namespace Tree
         }
 
         // An iterative function to do postorder traversal of a given binary tree
-        void postOrderIterative(Node root)
+        private List<int> postOrderIterative(Node root)
         {
             if (root == null)
-                return;
+                return null;
 
             Stack<Node> _stack = new Stack<Node>();
-            _stack.Push(root);
-            Node prev, curr;
-            prev = null;
-
-            while (_stack != null)
+            List<int> _res = new List<int>();
+            Node cur = root;
+            while (cur != null || _stack.Count != 0)
             {
-                curr = _stack.Peek();
-                if (prev == null || prev.left == curr || prev.right == curr) //top to bottom
+                if (cur != null)
                 {
-                    if (curr.left != null)
-                        _stack.Push(curr.left);
-                    else if (curr.right != null)
-                        _stack.Push(curr.right);
-                    else
-                    {
-                        Console.Write(curr.data);
-                        _stack.Pop();
-                    }
+                    _res.Add(cur.data);
+                    _stack.Push(cur);
+                    cur = cur.right;
                 }
-                else if (curr.left == prev) //bottom up
+                else
                 {
-                    if (curr.right != null)
-                    {
-                        _stack.Push(curr.right);
-                    }
-                    else
-                    {
-                        Console.Write(curr.data);
-                        _stack.Pop();
-                    }
+                    cur = _stack.Pop();
+                    cur = cur.left;
                 }
-                else if (curr.right == prev)
-                {
-                    Console.Write(curr.data);
-                    _stack.Pop();
-                }
-                prev = curr;
             }
+            return _res.Reverse();
         }
 
         // Delete node from tree
